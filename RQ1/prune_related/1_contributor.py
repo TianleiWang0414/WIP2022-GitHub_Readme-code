@@ -1,5 +1,8 @@
 import pandas
 import datetime
+"""
+Additional prune criteria， 
+"""
 def getNonePersonal():
     data = pandas.read_csv("../popularity_repo.csv")
     non_personal = data.loc[data['contributors'] > 1]
@@ -13,8 +16,6 @@ def get_more_than_one_year():
     data = pandas.read_csv("../non_personal_repo.csv")
     data= data.dropna(subset=['repo_created'])
     for index,row in data.iterrows():
-
-
         created = row['repo_created'].split('T')[0].split('-')
         date = datetime.datetime(int(created[0]), int(created[1]), int(created[2]))
         diff = curr - date
@@ -23,6 +24,5 @@ def get_more_than_one_year():
     data.to_csv('new_data_set.csv',index = False)
     print(len(data))
 if __name__ == '__main__':
-    data = pandas.read_csv("../popularity_repo.csv")
-    print(len(data))
+    getNonePersonal()
     get_more_than_one_year()
