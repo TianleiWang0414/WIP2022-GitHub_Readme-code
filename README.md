@@ -36,3 +36,9 @@ For more token information, please refer to: https://docs.github.com/en/authenti
 
 ## Data:
 https://zenodo.org/record/6568448#.YohqA6jMKUk
+
+## Tips on running the code
+- Each RQ is responsible for its data collection, please check `read_data` folder and `data_retrieval.py` 
+- Most `pandas.read_csv()` file name is hardcoded, feel free to change the file name as need
+- Save a copy of your current data when you are adding new columns to the data in case of failure
+- For most files does not need arguments, so you can simply click run.

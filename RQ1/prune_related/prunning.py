@@ -120,6 +120,9 @@ sim.plot(['ref_pos', 'gyro'], opt={'ref_pos': '3d'})
     print("## Step 5 Show results is not in a code block \nexpect: False\nreturn: %s" % (in_code))
 
 
+"""
+This main is used for stats, use main.py for actual purning
+"""
 if __name__ == "__main__":
     #example()
     d = enchant.Dict("en_US")

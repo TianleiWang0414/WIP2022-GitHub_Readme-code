@@ -7,7 +7,9 @@ import pandas
 include_word_count = False
 
 
-
+"""
+This file mine header information form readme file
+"""
 # Regex expressions
 code_regex = r'`{3}([\S\s]*?)`{3}.*'  # Regex to detect code block, same as in prunning.py
 indent_code_regex = re.compile(r'^((?:(?:[ ]{4}|\t).*(\R|$))+)',

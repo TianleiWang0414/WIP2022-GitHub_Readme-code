@@ -8,6 +8,12 @@ import pandas as pd
 from scipy.stats import ranksums
 from nltk.stem import PorterStemmer
 from ast import literal_eval
+
+"""
+This file is the same as in RQ1, 
+but it shows stats at the end for non-popular and popular, you can
+safely ignore if you don't care about these info
+"""
 heading_regex = "#+ .+\\s"
 code_regex = r'^```[^\S\r\n]*[a-z]*(?:\n(?!```$).*)*\n```'
 code_flag = re.MULTILINE

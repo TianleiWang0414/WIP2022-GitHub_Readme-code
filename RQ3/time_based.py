@@ -9,14 +9,11 @@ from util.ConfigLoader import load_config
 
 import matplotlib.pyplot as plt
 
-
-
-
+"""
+This adds average update time info to our data
+"""
 def print_observation():
     data = pandas.read_csv("commitsData.csv")
-
-
-
     num_row = len(data)
     total_commits = 0
     total_commits_noDup = 0
@@ -168,9 +165,6 @@ if __name__ == "__main__":
                 '1 year -> inf'
                 ]
     # Plot the PDF.
-
-
-
     percentage = [0,0,0,0,0,0]
     sort = np.sort(age_data)
     print(len(sort))

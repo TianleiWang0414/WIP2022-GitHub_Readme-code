@@ -2,7 +2,7 @@ import os
 
 import pandas
 
-from RQ1.prunning import valid
+from RQ1.prune_related.prunning import valid
 from util.ConfigLoader import load_config
 from util.connectionHelper import connector
 from util.stringConstructor import buildREADMEpath

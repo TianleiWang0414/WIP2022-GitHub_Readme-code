@@ -5,7 +5,7 @@ from util.ConfigLoader import load_config
 from util.connectionHelper import connector
 from util.stringConstructor import buildRepoStatusPath
 import pandas
-
+"""This file is able to get additional meta-data such as creation date, language, license, ect."""
 if __name__ == '__main__':
     info = pandas.read_csv('popularity_repo.csv')
 

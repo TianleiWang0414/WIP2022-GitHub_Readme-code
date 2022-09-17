@@ -2,7 +2,9 @@ import numpy as np
 import pandas as pd
 import seaborn as sns # For pairplots and heatmaps
 import matplotlib.pyplot as plt
-
+"""
+Spearman correlation
+"""
 def display_correlation(df):
     r = df.corr(method="spearman")
     plt.figure(figsize=(10,10))

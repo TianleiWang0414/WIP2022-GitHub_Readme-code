@@ -9,6 +9,10 @@ import pandas
 pandas.set_option('display.max_rows', 500)
 pandas.set_option('display.max_columns', 500)
 pandas.set_option('display.width', 1000)
+
+"""
+This file is able to get repo basic infos (see get_stats(token:str,user:str))
+"""
 def api_call_handler(conn,frame:list,defalut:int):
     try:
         conn.getResponse()

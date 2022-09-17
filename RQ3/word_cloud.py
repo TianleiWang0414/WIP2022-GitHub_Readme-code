@@ -4,6 +4,9 @@ import json
 import spacy
 import ast
 import matplotlib.pyplot as plt
+"""
+Commit message word cloud
+"""
 if __name__ =='__main__':
 
     with open('message.json') as file:

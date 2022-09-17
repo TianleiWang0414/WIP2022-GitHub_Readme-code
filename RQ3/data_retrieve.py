@@ -15,6 +15,8 @@ from util.connectionHelper import connector
 
 def getCommit(token: str, user: str):
     col = ["name", "user"]
+
+    #check the data difference and added commit to those new data
     file = os.path.abspath("../RQ1/cleaned_data.csv") #path
     done = pandas.read_csv('commitsData.csv')
     commits = []

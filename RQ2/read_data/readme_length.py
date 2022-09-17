@@ -2,6 +2,9 @@ import pandas
 pandas.set_option('display.max_rows', 500)
 pandas.set_option('display.max_columns', 500)
 pandas.set_option('display.width', 1000)
+"""
+add length to the data, not sure why I added this file here...
+"""
 if __name__ == '__main__':
     update_info = pandas.read_csv('RQ3 ReadmeStatsByRanking.csv')
     readme_length = []

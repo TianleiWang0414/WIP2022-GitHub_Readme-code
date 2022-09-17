@@ -3,7 +3,9 @@ import pandas
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import cross_val_predict, KFold, cross_val_score
-
+"""
+This file casts header info into a score as we discussed early using countVectorizer
+"""
 if __name__ == '__main__':
     pop_header = pandas.read_csv('popular_header.csv')
     non_pop_header =pandas.read_csv('Non-popular_header.csv')

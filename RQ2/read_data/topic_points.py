@@ -6,6 +6,9 @@ from util.ConfigLoader import load_config
 from util.connectionHelper import connector
 from util.stringConstructor import buildTopicSearch
 from ast import literal_eval
+"""
+This file casts topic into scores
+"""
 def topic_json(token, user):
     topic_dict = {}
     data = pandas.read_csv("popularity_repo.csv")
@@ -41,6 +44,7 @@ if __name__ == "__main__":
     __token = configs[0]
     __holder = configs[1]
     #topic_json(__token, __holder)
+    #here I was doing a merging between data set, because feature was added later
     lrm_data = pandas.read_csv('RQ3 ReadmeStatsByRanking.csv')
     cross_ref = pandas.read_csv('popularity_repo.csv')
     cross_ref['topics'].fillna('[]', inplace=True)

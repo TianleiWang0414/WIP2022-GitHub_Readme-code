@@ -5,6 +5,11 @@ from mlxtend.frequent_patterns import fpgrowth
 from mlxtend.preprocessing import TransactionEncoder
 import pandas as pd
 from nltk.stem import PorterStemmer
+
+"""
+This will retrieve all headers and ignore #-tags in code blocks
+domining uses support of 5%.
+"""
 heading_regex = "#+ .+\\s"
 code_regex = r'^```[^\S\r\n]*[a-z]*(?:\n(?!```$).*)*\n```'
 code_flag = re.MULTILINE
@@ -40,6 +45,7 @@ def getMiningData(file,name):
         popular_header.append(curr_header)
     P_dataframe = pd.DataFrame({'Header': popular_header})
     P_dataframe.to_csv(name, index=False)
+
 def doMining(file,name):
     transact = []
 

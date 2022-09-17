@@ -16,7 +16,9 @@ from numpy.random import normal
 from sklearn.impute import SimpleImputer
 from scipy import stats
 import pandas as pd
-
+"""
+This file is responsible for generating p value info for feature importance
+"""
 
 def initial():
     data = pd.read_csv('rf_data(new).csv',

@@ -1,6 +1,8 @@
 import pandas
 
-
+"""
+Tried to make dataset for R, can ignore..
+"""
 if __name__ == "__main__":
     data1 = pandas.read_csv('mining(new).csv')
     data2 = pandas.read_csv('RQ3 ReadmeStatsByRanking(new).csv',

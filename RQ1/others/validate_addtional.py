@@ -1,7 +1,9 @@
 import pandas
 
-from RQ1.prunning import valid
-
+from RQ1.prune_related.prunning import valid
+"""
+Used to speed up pruning process, can ignore
+"""
 if __name__ == "__main__":
     invalid_length = 0
     invalid_language = 0
