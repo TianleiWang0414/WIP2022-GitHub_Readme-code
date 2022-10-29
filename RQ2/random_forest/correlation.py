@@ -4,6 +4,15 @@ import seaborn as sns # For pairplots and heatmaps
 import matplotlib.pyplot as plt
 """
 Spearman correlation
+To run this file, make sure csv file contains 
+['blocks', 'indents', 'images', 'links', 'lists', 'repo_size', 'readme_length', 'topic_score_average',
+'update_interval', 'prob_popular','badge_count','language','license','time_since_last_update','Number_of_update']
+
+Run following to get the data:
+data_retrieval_README_attr.py
+data_retrieval_meta_data.py
+topic_points.py
+header_to_feature.py
 """
 def display_correlation(df):
     r = df.corr(method="spearman")
@@ -15,7 +24,6 @@ def display_correlation(df):
 if __name__ == '__main__':
     file = pd.read_csv("rf_data(new).csv", usecols=['blocks', 'indents', 'images', 'links', 'lists', 'repo_size', 'readme_length', 'topic_score_average',
               'update_interval', 'prob_popular','badge_count','language','license','time_since_last_update','Number_of_update'])
-    #file = file.drop(columns=['name', 'user','readme','star','Unnamed: 0','label','badge_info'])
 
     transform = file.apply(lambda x : pd.factorize(x)[0])
     correlation = transform.corr(method='spearman')

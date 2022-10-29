@@ -1,6 +1,7 @@
 import re
 import enchant
 import pandas
+
 __min_length = 2000
 heading_regex = "#+ .+\\s"
 code_regex = r'^```[^\S\r\n]*[a-z]*(?:\n(?!```$).*)*\n```'
@@ -26,9 +27,9 @@ def inCodeBlock(word_index: int, file: str) -> bool:
 
 """Is the readme default"""
 
-def __word_length_check(file: str,repo_name:str) -> bool:
 
-    default_readme = "# %s\n"%repo_name
+def __word_length_check(file: str, repo_name: str) -> bool:
+    default_readme = "# %s\n" % repo_name
     return default_readme != str(file)
 
 
@@ -71,20 +72,20 @@ def __heading_check(file: str, dict: enchant.Dict) -> bool:
     return valid > 0 and __ratio <= .2
 
 
-def valid(file: str,repo_name:str) -> (bool,int):
+def valid(in_file: str, repo_name: str) -> (bool, int):
     d = enchant.Dict("en_US")
-    return_int=-1
-    return_bool=True
-    if not __word_length_check(file,repo_name):
-        return_int=0
+    return_int = -1
+    return_bool = True
+    if not __word_length_check(in_file, repo_name):
+        return_int = 0
         return_bool = False
-    elif not __English_check(file):
-         return_int=1
-         return_bool = False
-    #elif not __heading_check(file, d):
-     #   return_int = 2
-     #   return_bool = False
-    return (return_bool,return_int)
+    elif not __English_check(in_file):
+        return_int = 1
+        return_bool = False
+    # elif not __heading_check(file, d):
+    #   return_int = 2
+    #   return_bool = False
+    return return_bool, return_int
 
 
 def example():
@@ -110,7 +111,7 @@ sim.plot(['ref_pos', 'gyro'], opt={'ref_pos': '3d'})
 
     for header in headings:
         index = file.find(header)
-        if not inCodeBlock(index,file):
+        if not inCodeBlock(index, file):
             print(header)
     print(headings)
     index_false = file.find("## Step 5 Show results")
@@ -121,10 +122,10 @@ sim.plot(['ref_pos', 'gyro'], opt={'ref_pos': '3d'})
 
 
 """
-This main is used for stats, use main.py for actual purning
+This main is used for stats, use prune_main.py for actual prune
 """
 if __name__ == "__main__":
-    #example()
+    # example()
     d = enchant.Dict("en_US")
     file = pandas.read_csv('dataWithREADME.csv')
     file = file.drop_duplicates()
@@ -134,7 +135,7 @@ if __name__ == "__main__":
     total = 0
     for index, row in file.iterrows():
 
-        if valid(row['readme'],row['name'])[1]==1:
-            #print(row['readme'])
-            total+=1
+        if valid(row['readme'], row['name'])[1] == 1:
+            # print(row['readme'])
+            total += 1
     print(total)

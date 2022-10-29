@@ -3,7 +3,6 @@ import json
 
 """
 Used add more repos to our dataset.
-real data retrieval is in RQ2
 """
 from util.connectionHelper import connector
 from util.stringConstructor import buildREADMEpath

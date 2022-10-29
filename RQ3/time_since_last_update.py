@@ -10,7 +10,6 @@ if __name__ == "__main__":
 
     data= pandas.read_csv("commitsData1.csv",usecols=['name','user','commits','message','length'])
     print(numpy.sum(data['length']))
-   # print(data.loc[data['name']== "freeCodeCamp"])
     data_choose = pandas.read_csv("../RQ3/rf_data(new).csv")
 
 

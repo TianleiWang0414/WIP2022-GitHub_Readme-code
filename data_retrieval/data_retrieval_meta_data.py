@@ -5,19 +5,26 @@ from util.ConfigLoader import load_config
 from util.connectionHelper import connector
 from util.stringConstructor import buildRepoStatusPath
 import pandas
-"""This file is able to get additional meta-data such as creation date, language, license, ect."""
+
+"""
+This file is able to get additional meta-data such as creation date, language, license, ect.
+input csv file is required to have a col named user [github username]
+and name [repo name]
+"""
 if __name__ == '__main__':
-    info = pandas.read_csv('popularity_repo.csv')
+    __file_name = ""
+    __save_name = ""
+    info = pandas.read_csv(__file_name)
 
     language = []
     repo_size = []
     repo_created = []
     license = []
     topics = []
-    token ,user = load_config()
+    token, user = load_config()
 
-    #max = 10
-    for index,row in info.iterrows():
+    # max = 10
+    for index, row in info.iterrows():
         if index == max:
             break
         org = row['user']
@@ -32,7 +39,7 @@ if __name__ == '__main__':
             curr_create = decoding['created_at']
             curr_size = decoding['size']
             curr_license = decoding['license']
-            curr_topics= decoding['topics']
+            curr_topics = decoding['topics']
             if curr_license:
                 license.append(curr_license['key'])
             else:
@@ -62,7 +69,7 @@ if __name__ == '__main__':
             repo_created.append(curr_create)
             topics.append(curr_topics)
         else:
-            print("%s/%s failed"%(org,repo))
+            print("%s/%s failed" % (org, repo))
             language.append(None)
             repo_size.append(None)
             repo_created.append(None)
@@ -75,4 +82,4 @@ if __name__ == '__main__':
     info['license'] = license
     info['topics'] = topics
 
-    info.to_csv('popularity_repo.csv', index = False)
+    info.to_csv(__save_name, index=False)

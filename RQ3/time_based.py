@@ -1,4 +1,3 @@
-
 import numpy
 import numpy as np
 import json
@@ -12,6 +11,8 @@ import matplotlib.pyplot as plt
 """
 This adds average update time info to our data
 """
+
+
 def print_observation():
     data = pandas.read_csv("commitsData.csv")
     num_row = len(data)
@@ -69,7 +70,7 @@ def print_observation():
             for index in range(1, len(commit_list)):
                 second = commit_list[index]
                 delta = second - first
-               # print(row['user'] + " " + row['name'] + " " + str(delta))
+                # print(row['user'] + " " + row['name'] + " " + str(delta))
                 total_diff_time += delta.days
                 current_delta += delta.days
                 max_day = max(delta.days, max_day)
@@ -104,9 +105,8 @@ def print_observation():
             total_diff_time / total_commits_noDup))
     print("Number of repos never changed README： %d" % total_no_commit)
 
-
     with open('time.json', 'w') as f:
-            json.dump(days, f)
+        json.dump(days, f)
 
     with open('message.json', 'w') as f:
         json.dump(all_message, f)
@@ -121,10 +121,8 @@ if __name__ == "__main__":
     configs = load_config()
     today = date.today()
 
-
-
-    #This give update interval
-    #print_observation()
+    # This give update interval
+    # print_observation()
     data = pandas.read_csv("../RQ3/RQ3 ReadmeStatsByRanking.csv")
 
     data['repo_created'].fillna('%s-%s-%sT' % (1970, 1, 1), inplace=True)
@@ -140,20 +138,20 @@ if __name__ == "__main__":
 
     counter = 0
     for num_updates in freq:
-        res = float(age_data[counter])/(num_updates+1)
-        #print(res)
+        res = float(age_data[counter]) / (num_updates + 1)
+        # print(res)
         if not numpy.isnan(float(res)):
-            res= round(res)
+            res = round(res)
         else:
-            old = date(1970,1,1)
+            old = date(1970, 1, 1)
 
-            res = (today -old).days
+            res = (today - old).days
         age_data[counter] = res
-        counter+=1
-    time =age_data
+        counter += 1
+    time = age_data
     data['total_days/update_freq'] = time
-    data.to_csv('../RQ3/RQ3 ReadmeStatsByRanking(new).csv',index=False)
-    #mu, std = norm.fit(time)
+    data.to_csv('../RQ3/RQ3 ReadmeStatsByRanking(new).csv', index=False)
+    # mu, std = norm.fit(time)
 
     # Plot the histogram.
 
@@ -165,35 +163,34 @@ if __name__ == "__main__":
                 '1 year -> inf'
                 ]
     # Plot the PDF.
-    percentage = [0,0,0,0,0,0]
+    percentage = [0, 0, 0, 0, 0, 0]
     sort = np.sort(age_data)
     print(len(sort))
     for i in sort:
-        if i<=1:
-            percentage[0]+=1
-        elif i>1 and i<=7:
+        if i <= 1:
+            percentage[0] += 1
+        elif i > 1 and i <= 7:
             percentage[1] += 1
-        elif i>7 and i<=31:
+        elif i > 7 and i <= 31:
             percentage[2] += 1
-        elif i>31 and i<= 183:
+        elif i > 31 and i <= 183:
             percentage[3] += 1
-        elif i>183 and i<=365:
+        elif i > 183 and i <= 365:
             percentage[4] += 1
         else:
             percentage[5] += 1
-    y_axis = [y/ len(sort) for y in percentage]
+    y_axis = [y / len(sort) for y in percentage]
     print(percentage)
     width = 0.3
     fig, axes = plt.subplots(figsize=(7, 5), dpi=100)
-    #bins = list(map(lambda x: x - width / 2, range(1, len(y_axis) + 1)))
+    # bins = list(map(lambda x: x - width / 2, range(1, len(y_axis) + 1)))
     plt.bar(bin_name, height=percentage, width=width)
-   # ax.set_xticks(list(map(lambda x: x, range(1, len(y_axis) + 1))))
+    # ax.set_xticks(list(map(lambda x: x, range(1, len(y_axis) + 1))))
     axes.set_xticklabels(bin_name, rotation=45, rotation_mode="anchor", ha="right")
 
-
-    #p = norm.pdf(x, mu, std)
-    #plt.plot(x, p, 'k', linewidth=2)
-    #plt.xlim(373, )
+    # p = norm.pdf(x, mu, std)
+    # plt.plot(x, p, 'k', linewidth=2)
+    # plt.xlim(373, )
     title = "Distribution Of Updating Time"
     plt.xlabel("update time (days/update_freq)")
     plt.ylabel("percentage")
