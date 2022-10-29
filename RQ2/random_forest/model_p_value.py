@@ -16,17 +16,18 @@ from numpy.random import normal
 from sklearn.impute import SimpleImputer
 from scipy import stats
 import pandas as pd
+
 """
 This file is responsible for generating p value info for feature importance
 """
+
 
 def initial():
     data = pd.read_csv('rf_data(new).csv',
                        usecols=['name', 'user', 'readme', 'star', 'blocks', 'indents', 'images', 'links', 'lists',
                                 'language',
                                 'license', 'readme_length', 'topic_score_average', 'update_interval', 'prob_popular',
-                                'label', 'badge_count', 'Number_of_update','repo_size'])
-
+                                'label', 'badge_count', 'Number_of_update', 'repo_size'])
 
     data['language'].fillna('None_language', inplace=True)
     data['license'].fillna('None_license', inplace=True)
@@ -40,13 +41,9 @@ def initial():
             ("license", license_encoder, ['license']),
             ("nums", numerical_pipe,
              ['blocks', 'indents', 'images', 'links', 'lists', 'readme_length', 'topic_score_average',
-              'update_interval', 'prob_popular', 'badge_count','Number_of_update','repo_size']),
+              'update_interval', 'prob_popular', 'badge_count', 'Number_of_update', 'repo_size']),
         ]
     )
-
-
-
-
 
     new_data = data.sample(frac=1).reset_index(drop=True)  # shuffle
     print(new_data)
@@ -83,9 +80,8 @@ def initial():
         arr = list(result.importances_mean)
         print(arr)
         for i in range(length):
-           value = arr[i]
-           total_res[i].append(value)
-
+            value = arr[i]
+            total_res[i].append(value)
 
     key_value = {}
 
@@ -94,7 +90,7 @@ def initial():
         key_value[list(_X_train.columns)[i]] = total_res[i]
 
     with open('p_value.json', 'w') as f:
-       json.dump(key_value, f)
+        json.dump(key_value, f)
 
 
 if __name__ == '__main__':
@@ -103,15 +99,8 @@ if __name__ == '__main__':
     with open('p_value.json', 'r') as f:
         data = json.load(f)
     a = normal(loc=0, scale=0, size=100)
-    for k,v in data.items():
-        #print(list(a))
-        #print(v)
-        #print("normal distribution mean: %f" % np.mean(a))
-        #print("normal distribution std: %f" % np.std(a, ddof=1))
-
+    for k, v in data.items():
         result = str(ranksums(list(a), v).pvalue)
-        message = k+" p = " + result
+        message = k + " p = " + result
         print(message)
-        print(k+ " Median %f" % np.median(v))
-
-
+        print(k + " Median %f" % np.median(v))

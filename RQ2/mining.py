@@ -65,6 +65,7 @@ def doMining(file,name):
     mined.to_csv(name, index=False)
 if __name__ == '__main__':
     __file_name = ""
+    __save_name = ""
     data = pd.read_csv(__file_name)
 
     # split our data into popular and non popular
@@ -84,5 +85,5 @@ if __name__ == '__main__':
         getMiningData(non_popular,'Non-popular_header.csv')
     if not os.path.isfile('"mined_popular.csv"'):
         non_popular = pd.read_csv('Non-popular_header.csv')
-        non_popular.Header =non_popular.Header.apply(literal_eval)
+        non_popular.Header = non_popular.Header.apply(literal_eval)
         doMining(non_popular,"Non-mined_popular.csv")
