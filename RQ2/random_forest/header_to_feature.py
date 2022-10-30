@@ -14,10 +14,10 @@ if __name__ == '__main__':
     pop_header = pandas.read_csv('popular_header.csv')
     non_pop_header = pandas.read_csv('Non-popular_header.csv')
     empty = non_pop_header.loc[non_pop_header['Header'] == '[]']
-    print(len(empty) / len(non_pop_header))
+
     high_label = [1] * len(pop_header)
     low_label = [0] * len(non_pop_header)
-    # print(high_label)
+    # make label
     pop_header['label'] = high_label
     non_pop_header['label'] = low_label
 
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     cv = KFold(n_splits=10)
 
     pop_header = pop_header.sample(frac=1).reset_index(drop=True)
-    proba = cross_val_predict(rf,X_test,pop_header['label'],cv=cv, method='predict_proba')
+    proba = cross_val_predict(rf, X_test, pop_header['label'], cv=cv, method='predict_proba')
     score_a = cross_val_score(rf, X_test, pop_header['label'], cv=cv, scoring='accuracy')
     score_r = cross_val_score(rf, X_test, pop_header['label'], cv=cv, scoring='recall')
     score_p = cross_val_score(rf, X_test, pop_header['label'], cv=cv, scoring='precision')
@@ -59,6 +59,6 @@ if __name__ == '__main__':
 
     prob = [x[1] for x in proba]
 
-    save = pandas.read_csv('mining.csv')
-    save['prob_popular'] = prob
-    save.to_csv(__save_name)
+    pop_header['prob_popular'] = prob
+    # merged popular and non popular
+    pop_header.to_csv(__save_name)

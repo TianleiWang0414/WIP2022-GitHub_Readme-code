@@ -9,12 +9,18 @@ from util.ConfigLoader import load_config
 import matplotlib.pyplot as plt
 
 """
-This adds average update time info to our data
+This file parse raw commits into average_update, Number_of_update, message(commit message)
+, time_since_last_update, and update_interval. 
+The file also create a distribution graph for average update
+
+Run following to get the required data:
+data_retrieval_meta_data.py
+data_retrieval_commits.py
 """
 
 
-def print_observation():
-    data = pandas.read_csv("commitsData.csv")
+def print_observation(file_name: str, to_name: str):
+    data = pandas.read_csv(file_name)
     num_row = len(data)
     total_commits = 0
     total_commits_noDup = 0
@@ -24,7 +30,8 @@ def print_observation():
     min_commit = 9999
     max_day = 0
     min_day = 9999
-    ## the Format we store is a list of lists. Each list in this list is a repo, and within is the messages(commit happned in same day are grouped)
+    # the Format we store is a list of lists. Each list in this list is a repo, and within is the messages(commit
+    # happened in same day are grouped)
     all_message = []
     commit_length = []
     days = []
@@ -70,7 +77,6 @@ def print_observation():
             for index in range(1, len(commit_list)):
                 second = commit_list[index]
                 delta = second - first
-                # print(row['user'] + " " + row['name'] + " " + str(delta))
                 total_diff_time += delta.days
                 current_delta += delta.days
                 max_day = max(delta.days, max_day)
@@ -88,7 +94,7 @@ def print_observation():
         min_commit = min(min_commit, length)
         if length == 0:
             total_no_commit += 1
-    ##This checks if we missed any grouping
+    # This checks if we missed any grouping
     # check = 0
     # for i in all_message:
     #     check+=len(i)
@@ -104,7 +110,7 @@ def print_observation():
     print("Average days of updating the README(without multi update on the same day): %f" % (
             total_diff_time / total_commits_noDup))
     print("Number of repos never changed README： %d" % total_no_commit)
-
+    # These two json file is needed for other features
     with open('time.json', 'w') as f:
         json.dump(days, f)
 
@@ -113,17 +119,13 @@ def print_observation():
 
     data['message'] = all_message
     data['average_update'] = days
-    data['length'] = commit_length
-    data.to_csv('commitsData.csv', index=False)
+    data['Number_of_update'] = commit_length
+    data.to_csv(to_name, index=False)
 
 
-if __name__ == "__main__":
-    configs = load_config()
-    today = date.today()
-
-    # This give update interval
-    # print_observation()
-    data = pandas.read_csv("../RQ3/RQ3 ReadmeStatsByRanking.csv")
+# Return age_data for plot
+def get_update_interval(file_name: str, to_name: str) -> list:
+    data = pandas.read_csv(file_name)
 
     data['repo_created'].fillna('%s-%s-%sT' % (1970, 1, 1), inplace=True)
     time_date = data['repo_created']
@@ -149,12 +151,44 @@ if __name__ == "__main__":
         age_data[counter] = res
         counter += 1
     time = age_data
-    data['total_days/update_freq'] = time
-    data.to_csv('../RQ3/RQ3 ReadmeStatsByRanking(new).csv', index=False)
-    # mu, std = norm.fit(time)
+    # update_interval = total_days/update_freq
+    data['update_interval'] = time
+    data.to_csv(to_name, index=False)
+    return age_data
 
-    # Plot the histogram.
 
+def get_time_since_last_update(file_name: str, to_name: str):
+    data = pandas.read_csv(file_name)
+    time_since_last_update = []
+    for index, row in data.iterrows():
+
+        commits = ast.literal_eval(row['commits'])
+        latest = date(1970, 1, 1)
+        # if it is never updated, then it is the same as when it is created
+        if len(commits) == 0:
+            time_since_last_update.append(row['repo_created'])
+            continue
+        # print(commits)
+        for commit in commits:
+            time = commit['commit']['committer']['date'].split("T")[0].split("-")
+            year = int(time[0])
+            month = int(time[1].lstrip('0'))
+            day = int(time[2].lstrip('0'))
+            curr = date(year, month, day)
+
+            if curr > latest:
+                latest = curr
+
+        delta = today - latest
+        # print(latest)
+        time_since_last_update.append(delta.days)
+        # print(time_since_last_update)
+    data['time_since_last_update'] = time_since_last_update
+    data.to_csv(to_name, index=False)
+
+
+# distribution graph for average update
+def plot_average_update_graph(age_data: list):
     bin_name = ['< 1 day',
                 '1 day -> 1 week',
                 '1 week -> 1 month',
@@ -169,13 +203,13 @@ if __name__ == "__main__":
     for i in sort:
         if i <= 1:
             percentage[0] += 1
-        elif i > 1 and i <= 7:
+        elif 1 < i <= 7:
             percentage[1] += 1
-        elif i > 7 and i <= 31:
+        elif 7 < i <= 31:
             percentage[2] += 1
-        elif i > 31 and i <= 183:
+        elif 31 < i <= 183:
             percentage[3] += 1
-        elif i > 183 and i <= 365:
+        elif 183 < i <= 365:
             percentage[4] += 1
         else:
             percentage[5] += 1
@@ -183,17 +217,26 @@ if __name__ == "__main__":
     print(percentage)
     width = 0.3
     fig, axes = plt.subplots(figsize=(7, 5), dpi=100)
-    # bins = list(map(lambda x: x - width / 2, range(1, len(y_axis) + 1)))
     plt.bar(bin_name, height=percentage, width=width)
-    # ax.set_xticks(list(map(lambda x: x, range(1, len(y_axis) + 1))))
     axes.set_xticklabels(bin_name, rotation=45, rotation_mode="anchor", ha="right")
 
-    # p = norm.pdf(x, mu, std)
-    # plt.plot(x, p, 'k', linewidth=2)
-    # plt.xlim(373, )
     title = "Distribution Of Updating Time"
     plt.xlabel("update time (days/update_freq)")
     plt.ylabel("percentage")
     plt.title(title)
 
     plt.show()
+
+
+if __name__ == "__main__":
+    configs = load_config()
+    today = date.today()
+    __file_name = ""
+    __save_name = ""
+    # get features
+    print_observation(__file_name, __save_name)
+    age_data = get_update_interval(__save_name, __save_name)
+    get_time_since_last_update(__save_name, __save_name)
+
+    # Plot the histogram.
+    plot_average_update_graph(age_data)

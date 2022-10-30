@@ -4,10 +4,12 @@ import json
 import spacy
 import ast
 import matplotlib.pyplot as plt
+
 """
 Commit message word cloud
+Run time_based.py to get message.json
 """
-if __name__ =='__main__':
+if __name__ == '__main__':
 
     with open('message.json') as file:
         message_file = json.load(file)
@@ -21,20 +23,17 @@ if __name__ =='__main__':
             if type(elements) is str:
                 doc = nlp(elements)
                 for token in doc:
-                    text += token.lemma_+ " "
+                    text += token.lemma_ + " "
             elif type(elements) is list:
                 for message in elements:
                     doc = nlp(message)
                     for token in doc:
                         text += token.lemma_ + " "
 
-
-
-
     print(text)
 
-
-    wordcloud =WordCloud(stopwords=nlp.Defaults.stop_words,background_color="white",collocations=False).generate(text)
+    wordcloud = WordCloud(stopwords=nlp.Defaults.stop_words, background_color="white", collocations=False).generate(
+        text)
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis("off")
     plt.show()

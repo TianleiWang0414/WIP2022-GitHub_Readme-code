@@ -1,4 +1,8 @@
 import json
+import pandas as pd
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+
 from cliffs_delta import cliffs_delta
 from scipy.stats import ranksums
 from sklearn.compose import ColumnTransformer
@@ -7,23 +11,29 @@ from sklearn.inspection import permutation_importance, PartialDependenceDisplay
 from sklearn.metrics import roc_auc_score, classification_report
 from sklearn.model_selection import train_test_split, cross_val_score, KFold, cross_validate
 from scipy import stats
-import statsmodels.api as sm
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
-import matplotlib.pyplot as plt
 from sklearn.pipeline import Pipeline
 import numpy as np
 from numpy.random import normal
 from sklearn.impute import SimpleImputer
 from scipy import stats
-import pandas as pd
+
 
 """
 This file is responsible for generating p value info for feature importance
+
+Run following to get the required data:
+data_retrieval_README_attr.py
+data_retrieval_meta_data.py
+data_retrieval_commits.py
+topic_points.py
+header_to_feature.py
+time_based.py
 """
 
 
-def initial():
-    data = pd.read_csv('rf_data(new).csv',
+def initial(file_name: str):
+    data = pd.read_csv(file_name,
                        usecols=['name', 'user', 'readme', 'star', 'blocks', 'indents', 'images', 'links', 'lists',
                                 'language',
                                 'license', 'readme_length', 'topic_score_average', 'update_interval', 'prob_popular',
@@ -94,8 +104,10 @@ def initial():
 
 
 if __name__ == '__main__':
-    initial()
+    __file_name = ""
+    initial(__file_name)
 
+    # print p-value stats
     with open('p_value.json', 'r') as f:
         data = json.load(f)
     a = normal(loc=0, scale=0, size=100)

@@ -1,29 +1,39 @@
+import numpy as np
+import regressors.stats
+import pandas as pd
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.inspection import permutation_importance, PartialDependenceDisplay
 from pdpbox import pdp, get_dataset, info_plots
 from sklearn.model_selection import train_test_split, cross_val_score, KFold, cross_validate
 from scipy import stats
-import statsmodels.api as sm
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
-import matplotlib.pyplot as plt
 from sklearn.pipeline import Pipeline
-import numpy as np
 from sklearn.impute import SimpleImputer
 from datetime import date
-import regressors.stats
-import pandas as pd
+
+from RQ2.RQ2_util.split_popular import get_non_popular, get_popular
 
 """
-This file is responsible for the feature importance feature
+This file is responsible for the feature importance feature, and create Random Forest PDP graph
 To run this file, make sure csv file contains 
 ['blocks', 'indents', 'images', 'links', 'lists', 'repo_size', 'readme_length', 'topic_score_average',
 'update_interval', 'prob_popular','badge_count','language','license','time_since_last_update','Number_of_update']
 
 Run following to get the required data:
-
+data_retrieval_README_attr.py
+data_retrieval_meta_data.py
+data_retrieval_commits.py
+topic_points.py
+header_to_feature.py
+time_based.py
 """
-def print_stats(frame: pd.DataFrame):
+
+
+def __print_stats(frame: pd.DataFrame):
     print("watch:  mean -> %f median->%s min->%f max->%f" % (
         frame['watch'].mean(), frame['watch'].median(),
         frame['watch'].min(),
@@ -34,8 +44,19 @@ def print_stats(frame: pd.DataFrame):
         frame['fork'].max()))
 
 
+def show_label_stats(data: pd.DataFrame):
+    top_stats = get_popular(data)
+    bottom_stats = get_non_popular(data)
+
+    print("Top_stats:")
+    __print_stats(top_stats)
+    print("\nBottom_stats")
+    __print_stats(bottom_stats)
+
+
 if __name__ == '__main__':
-    data = pd.read_csv('rf_data(new).csv',
+    __file_name = ""
+    data = pd.read_csv(__file_name,
                        usecols=['name', 'user', 'readme', 'star', 'blocks', 'indents', 'images', 'links', 'lists',
                                 'language',
                                 'license', 'readme_length', 'topic_score_average', 'update_interval', 'prob_popular',
@@ -43,9 +64,11 @@ if __name__ == '__main__':
 
     data['language'].fillna('None_language', inplace=True)
     data['license'].fillna('None_license', inplace=True)
-    print(len(data))
+    show_label_stats(data)
+
+    # do random forest feature importance
     language_encoder = OneHotEncoder(handle_unknown="ignore")
-    license_encoder = OneHotEncoder(handle_unknown="ignore")
+    license_encoder = OneHotEncoder(han1dle_unknown="ignore")
     numerical_pipe = Pipeline([("imputer", SimpleImputer(strategy="mean"))])
     preprocessing = ColumnTransformer(
         [
@@ -56,17 +79,6 @@ if __name__ == '__main__':
               'R_UpdateDensity', 'R_heading', 'R_NumBadge', 'R_NumUpdate']),
         ]
     )
-
-    #    data = data[data['repo_size'].notna()]
-    length = int(len(data) * 0.2)
-
-    top_stats = data.nlargest(n=length, columns=['star'])
-    bottom_stats = data.nsmallest(n=length, columns=['star'])
-
-    print("Top_stats:")
-    print_stats(top_stats)
-    print("\nBottom_stats")
-    print_stats(bottom_stats)
 
     new_data = data.sample(frac=1).reset_index(drop=True)  # shuffle
     print(new_data)
@@ -116,6 +128,7 @@ if __name__ == '__main__':
         print(X_test.columns[counter] + " median: %f" % np.median(arr))
         counter += 1
     # regressors.stats.summary(rf['classifier'], _X_train, _y_train, X_test.columns)
+    # start plot
     fig, ax = plt.subplots()
     ax.boxplot(
         result.importances[sorted_idx].T, vert=False, labels=X_test.columns[sorted_idx]
