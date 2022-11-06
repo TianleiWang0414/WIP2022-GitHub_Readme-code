@@ -1,15 +1,11 @@
 import numpy as np
-import regressors.stats
 import pandas as pd
-import statsmodels.api as sm
 import matplotlib.pyplot as plt
 
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.inspection import permutation_importance, PartialDependenceDisplay
-from pdpbox import pdp, get_dataset, info_plots
 from sklearn.model_selection import train_test_split, cross_val_score, KFold, cross_validate
-from scipy import stats
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
@@ -64,11 +60,11 @@ if __name__ == '__main__':
 
     data['language'].fillna('None_language', inplace=True)
     data['license'].fillna('None_license', inplace=True)
-    show_label_stats(data)
+    #show_label_stats(data)
 
     # do random forest feature importance
     language_encoder = OneHotEncoder(handle_unknown="ignore")
-    license_encoder = OneHotEncoder(han1dle_unknown="ignore")
+    license_encoder = OneHotEncoder(handle_unknown="ignore")
     numerical_pipe = Pipeline([("imputer", SimpleImputer(strategy="mean"))])
     preprocessing = ColumnTransformer(
         [

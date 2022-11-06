@@ -8,11 +8,13 @@ from sklearn.model_selection import cross_val_predict, KFold, cross_val_score
 This file casts header info into a score as we discussed early using countVectorizer
 To run this file, please make sure popular_header.csv and Non-popular_header.csv
 is created using mining.py
+
+It is going to take a while
 """
 if __name__ == '__main__':
     __save_name = ""
-    pop_header = pandas.read_csv('popular_header.csv')
-    non_pop_header = pandas.read_csv('Non-popular_header.csv')
+    pop_header = pandas.read_csv('../popular_header.csv')
+    non_pop_header = pandas.read_csv('../Non-popular_header.csv')
     empty = non_pop_header.loc[non_pop_header['Header'] == '[]']
 
     high_label = [1] * len(pop_header)
@@ -61,4 +63,4 @@ if __name__ == '__main__':
 
     pop_header['prob_popular'] = prob
     # merged popular and non popular
-    pop_header.to_csv(__save_name)
+    pop_header.to_csv(__save_name, index=False)

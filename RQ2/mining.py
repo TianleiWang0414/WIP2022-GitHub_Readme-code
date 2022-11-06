@@ -52,8 +52,8 @@ def getMiningData(file, name):
                         print(stemmed)
                         curr_header.append(stemmed)
         popular_header.append(curr_header)
-    P_dataframe = pd.DataFrame({'Header': popular_header})
-    P_dataframe.to_csv(name, index=False)
+    file['Header'] = popular_header
+    file.to_csv(name, index=False)
 
 
 def doMining(file, name):
@@ -69,8 +69,9 @@ def doMining(file, name):
     mined = fpgrowth(df, min_support=0.05, use_colnames=True)
     mined.to_csv(name, index=False)
 
+
 if __name__ == '__main__':
-    __file_name = ""
+    __file_name = "../data/all_in_one_data.csv"
     __save_name = ""
     data = pd.read_csv(__file_name)
 

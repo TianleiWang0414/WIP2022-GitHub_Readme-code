@@ -11,6 +11,7 @@ from langdetect import detect
 """
 checks the word is in a code block, word_index is the start index of a word or sentence
     you would need to use span to find the start index of the word/sentence
+This main is used for stats, use prune_main.py for actual prune
 """
 
 
@@ -120,10 +121,6 @@ sim.plot(['ref_pos', 'gyro'], opt={'ref_pos': '3d'})
     in_code = inCodeBlock(index_false, file)
     print("## Step 5 Show results is not in a code block \nexpect: False\nreturn: %s" % (in_code))
 
-
-"""
-This main is used for stats, use prune_main.py for actual prune
-"""
 if __name__ == "__main__":
     # example()
     d = enchant.Dict("en_US")
