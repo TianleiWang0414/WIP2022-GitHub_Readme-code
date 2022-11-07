@@ -58,7 +58,7 @@ def star_distribution(data: pd.DataFrame):
             percentage[3] += 1
         elif star > 20000:
             percentage[4] += 1
-
+    print("bin stats: ")
     print(percentage)
     width = 0.3
     plt.bar(bin_name, height=percentage, width=width)
@@ -72,7 +72,7 @@ def star_distribution(data: pd.DataFrame):
 
 
 if __name__ == "__main__":
-    __file_name = "../data/all_in_one_data.csv"
+    __file_name = ""
     data = pandas.read_csv(__file_name)
     show_label_stats(data)
     star_distribution(data)
