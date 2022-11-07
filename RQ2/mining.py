@@ -11,7 +11,7 @@ from ast import literal_eval
 from RQ2.RQ2_util.split_popular import get_popular, get_non_popular
 
 """
-This file generate popular and non popular groups and extract the header information for each
+This file generates popular and non popular groups and extract the header information for each
 csv file is required to have star and readme col
 
 Run following to get the required data:

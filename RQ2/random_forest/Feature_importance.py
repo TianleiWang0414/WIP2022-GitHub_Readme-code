@@ -28,28 +28,6 @@ header_to_feature.py
 time_based.py
 """
 
-
-def __print_stats(frame: pd.DataFrame):
-    print("watch:  mean -> %f median->%s min->%f max->%f" % (
-        frame['watch'].mean(), frame['watch'].median(),
-        frame['watch'].min(),
-        frame['watch'].max()))
-    print("fork:  mean -> %f median->%s min->%f max->%f" % (
-        frame['fork'].mean(), frame['fork'].median(),
-        frame['fork'].min(),
-        frame['fork'].max()))
-
-
-def show_label_stats(data: pd.DataFrame):
-    top_stats = get_popular(data)
-    bottom_stats = get_non_popular(data)
-
-    print("Top_stats:")
-    __print_stats(top_stats)
-    print("\nBottom_stats")
-    __print_stats(bottom_stats)
-
-
 if __name__ == '__main__':
     __file_name = ""
     data = pd.read_csv(__file_name,
