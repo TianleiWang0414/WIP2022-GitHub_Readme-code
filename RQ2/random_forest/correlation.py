@@ -22,7 +22,7 @@ time_based.py
 # https://stackabuse.com/calculating-spearmans-rank-correlation-coefficient-in-python-with-pandas/
 def display_correlation(df):
     r = df.corr(method="spearman")
-    plt.figure(figsize=(20, 20))
+    plt.figure(figsize=(5, 5))
     heatmap = sns.heatmap(df.corr(), vmin=-1,
                           vmax=1, annot=True)
     plt.title("Spearman Correlation")
@@ -30,13 +30,11 @@ def display_correlation(df):
 
 
 if __name__ == '__main__':
-    __file_name = ""
+    __file_name =  "D:/paper/WIP2022-GitHub_Readme-code/data/all_in_one_data.csv"
+
     # ADD new metrics here
     file = pd.read_csv(__file_name,
-                       usecols=['star','blocks', 'indents', 'images', 'links', 'lists', 'repo_size', 'readme_length',
-                                'topic_score_average',
-                                'update_interval', 'prob_popular', 'badge_count', 'language', 'license',
-                                'time_since_last_update', 'Number_of_update'])
+                       usecols=['star','watch','pull_requests','fork','contributors' ])
 
     transform = file.apply(lambda x: pd.factorize(x)[0])
     correlation = transform.corr(method='spearman')

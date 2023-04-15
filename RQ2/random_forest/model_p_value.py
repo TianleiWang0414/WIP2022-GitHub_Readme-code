@@ -99,7 +99,7 @@ def initial(file_name: str):
 
 
 if __name__ == '__main__':
-    __file_name = ""
+    __file_name = "D:/paper/WIP2022-GitHub_Readme-code/data/all_in_one_data.csv"
     initial(__file_name)
 
     # print p-value stats

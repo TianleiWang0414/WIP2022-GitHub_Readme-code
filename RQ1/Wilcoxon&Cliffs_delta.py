@@ -1,14 +1,15 @@
 from scipy.stats import ranksums
 from cliffs_delta import cliffs_delta
 import pandas as pd
+from RQ2_util.split_popular import load_data, get_popular, get_non_popular
 
 if __name__ == '__main__':
-    __file_name = ""
-    data = pd.read_csv(__file_name)
+    __file_name = "D:/paper/WIP2022-GitHub_Readme-code/data/all_in_one_data.csv"
+    data = load_data(__file_name)
 
     # split our data into popular and non popular
-    popular = data.loc[data['star'] != 0]
-    non_popular = data.loc[data['star'] == 0]
+    popular = get_popular(data,True)
+    non_popular = get_non_popular(data)
     popular = popular.drop(popular[popular.average_update == -1].index)
     non_popular = non_popular.drop(non_popular[non_popular.average_update == -1].index)
     sample1 = popular['star'].to_list()
@@ -59,6 +60,8 @@ if __name__ == '__main__':
         cliffs_delta(popular['topic_score_median'].to_list(), non_popular['topic_score_median'].to_list())))
     print("Topic_score_max: %s" % str(
         cliffs_delta(popular['topic_score_max'].to_list(), non_popular['topic_score_max'].to_list())))
+ 
+
 
     print('%%%Investigating variable%%%')
     print("Blocks: %s" % str(cliffs_delta(popular['blocks'].to_list(), non_popular['blocks'].to_list())))
@@ -76,8 +79,10 @@ if __name__ == '__main__':
         cliffs_delta(popular['badge_count'].to_list(), non_popular['badge_count'].to_list())))
     print("update_interval: %s" % str(
         cliffs_delta(popular['update_interval'].to_list(), non_popular['update_interval'].to_list())))
+    print("time_since_last_update: %s" % str(
+        cliffs_delta(popular['time_since_last_update'].to_list(), non_popular['time_since_last_update'].to_list())))
 
-    print("\nBasic Stats")
+    print("\nPopular Basic Stats")
     print("Star:  mean -> %f median->%s min->%f max->%f" % (
     popular['star'].mean(), popular['star'].median(), popular['star'].min(), popular['star'].max()))
     print("repo size:  mean -> %f median->%s min->%f max->%f" % (
