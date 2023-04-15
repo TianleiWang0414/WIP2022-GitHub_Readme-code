@@ -135,5 +135,3 @@ dmypy.json
 #local property
 Config.properties
 .idea
-
-*.csv
