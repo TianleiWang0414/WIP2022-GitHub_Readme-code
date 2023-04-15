@@ -35,7 +35,21 @@ user= your_GitHub_username_goes_here
 For more token information, please refer to: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
 ## Data:
-https://zenodo.org/record/6568448#.YohqA6jMKUk
+The data for RQ1 and RQ2 are packaged in ```data/all_in_one_data.csv```
+
+## RQs
+
+### RQ1
+run 
+```python Wilcoxon&Cliffs_delta.py```
+
+### RQ2 
+run 
+```python Feature_importance.py```
+
+### RQ3
+
+The labeled data located in ```/date/popular vs non_popular_commits 100 samples published.xlsx```
 
 ## Tips on running the code
 - Most data collection/retrieval files can be found under data_retrieval
