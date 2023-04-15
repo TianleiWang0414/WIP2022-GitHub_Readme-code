@@ -26,14 +26,6 @@ If you still receive a problem with finding the packages after installing, try:
 
 and restart your IDE.
 
-## Config.properties Format
-You will need a `Config.properties` file in the root of the project to extract data from GitHub API in the following format
-```python
-token= your_token_goes_here
-user= your_GitHub_username_goes_here
-```
-For more token information, please refer to: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
-
 ## Data:
 The data for RQ1 and RQ2 are packaged in ```data/all_in_one_data.csv```
 
@@ -51,7 +43,18 @@ run
 
 The labeled data located in ```/date/popular vs non_popular_commits 100 samples published.xlsx```
 
-## Tips on running the code
+## Collect data from GitHub
+### Config.properties Format
+You will need a `Config.properties` file in the root of the project to extract data from GitHub API in the following format
+```python
+token= your_token_goes_here
+user= your_GitHub_username_goes_here
+```
+For more token information, please refer to: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+
+
+
+### Tips on running the code
 - Most data collection/retrieval files can be found under data_retrieval
 - Most `pandas.read_csv()` file name is hardcoded, feel free to change __file_name and __save_name in main as needed.
 - Save a copy of your current data when you are adding new columns to the data in case of failure
